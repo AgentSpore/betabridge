@@ -97,3 +97,20 @@ async def get_funnel(db) -> dict:
         "by_status": by_status,
         "top_sources": [{"source": r["source"], "count": r["cnt"]} for r in source_rows],
     }
+
+async def get_user(db, user_id: int) -> dict | None:
+    rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE id=?", (user_id,))
+    return _row(rows[0]) if rows else None
+
+async def get_user_events(db, user_id: int) -> list[dict]:
+    rows = await db.execute_fetchall(
+        "SELECT * FROM events WHERE user_id=? ORDER BY created_at DESC", (user_id,)
+    )
+    return [_row(r) for r in rows]
+
+async def churn_user(db, user_id: int) -> dict | None:
+    await db.execute("UPDATE beta_users SET status='churned' WHERE id=?", (user_id,))
+    await db.commit()
+    rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE id=?", (user_id,))
+    return _row(rows[0]) if rows else None
+
