@@ -114,3 +114,47 @@ async def churn_user(db, user_id: int) -> dict | None:
     rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE id=?", (user_id,))
     return _row(rows[0]) if rows else None
 
+async def get_cohorts(db) -> list[dict]:
+    rows = await db.execute_fetchall("""
+        SELECT
+            strftime('%Y-W%W', created_at) AS week,
+            COUNT(*) AS signups,
+            SUM(CASE WHEN status='converted' THEN 1 ELSE 0 END) AS converted,
+            SUM(CASE WHEN status='churned' THEN 1 ELSE 0 END) AS churned,
+            ROUND(AVG(CASE WHEN status='converted' THEN mrr ELSE NULL END), 2) AS avg_mrr,
+            ROUND(AVG(nps), 1) AS avg_nps
+        FROM beta_users
+        GROUP BY week
+        ORDER BY week DESC
+    """)
+    result = []
+    for r in rows:
+        signups = r["signups"] or 0
+        converted = r["converted"] or 0
+        result.append({
+            "week": r["week"],
+            "signups": signups,
+            "converted": converted,
+            "churned": r["churned"] or 0,
+            "conversion_rate_pct": round(converted / signups * 100, 1) if signups else 0.0,
+            "avg_mrr": r["avg_mrr"],
+            "avg_nps": r["avg_nps"],
+        })
+    return result
+
+async def export_users_csv(db, status: str | None = None) -> str:
+    import csv
+    import io
+    users = await list_users(db, status)
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow([
+        "id", "email", "source", "plan_interest", "status",
+        "nps", "mrr", "events_count", "created_at", "converted_at",
+    ])
+    for u in users:
+        writer.writerow([
+            u["id"], u["email"], u["source"], u["plan_interest"], u["status"],
+            u["nps"], u["mrr"], u["events_count"], u["created_at"], u["converted_at"],
+        ])
+    return buf.getvalue()
