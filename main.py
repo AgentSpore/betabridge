@@ -1,10 +1,12 @@
 from __future__ import annotations
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from models import UserCreate, EventCreate, NpsCreate, ConvertCreate, UserResponse
 from engine import (
     init_db, add_user, track_event, record_nps, convert_user,
     list_users, get_funnel, get_user, get_user_events, churn_user,
+    get_cohorts, export_users_csv,
 )
 
 DB_PATH = "betabridge.db"
@@ -18,7 +20,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="BetaBridge",
     description="Beta-to-paid conversion tracker. Track every beta user journey — signup source, activation events, NPS. Surface which cohorts convert and why.",
-    version="0.2.0",
+    version="0.3.0",
     lifespan=lifespan,
 )
 
@@ -26,6 +28,19 @@ app = FastAPI(
 async def add_beta_user(body: UserCreate):
     """Register a new beta user (idempotent by email)."""
     return await add_user(app.state.db, body.model_dump())
+
+@app.get("/users/export/csv")
+async def export_csv(
+    status: str | None = Query(None, description="Filter: beta, converted, churned"),
+):
+    """Export beta users list as CSV. Useful for sales team outreach and reporting."""
+    csv_data = await export_users_csv(app.state.db, status)
+    filename = f"betabridge_users{'_' + status if status else ''}.csv"
+    return StreamingResponse(
+        iter([csv_data]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
+    )
 
 @app.get("/users", response_model=list[UserResponse])
 async def list_beta_users(status: str | None = Query(None, description="beta | converted | churned")):
@@ -80,3 +95,8 @@ async def mark_converted(body: ConvertCreate):
 async def conversion_funnel():
     """Funnel stats: total beta, conversion rate, MRR from beta, avg events before convert, top sources."""
     return await get_funnel(app.state.db)
+
+@app.get("/cohorts")
+async def cohort_analysis():
+    """Weekly cohort breakdown: signups, conversion rate, avg MRR, avg NPS per signup week."""
+    return await get_cohorts(app.state.db)
