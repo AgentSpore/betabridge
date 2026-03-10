@@ -1,22 +1,28 @@
 from __future__ import annotations
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserCreate(BaseModel):
     email: str
-    source: str | None = None        # e.g. producthunt, twitter, hacker_news
+    source: str | None = None
     plan_interest: str | None = None
+
+
+class UserUpdate(BaseModel):
+    source: Optional[str] = None
+    plan_interest: Optional[str] = None
 
 
 class EventCreate(BaseModel):
     user_id: int
-    event: str                        # activated, invited_team, used_feature, etc.
+    event: str
     metadata: str | None = None
 
 
 class NpsCreate(BaseModel):
     user_id: int
-    score: int                        # 0-10
+    score: int
     comment: str | None = None
 
 
@@ -31,7 +37,7 @@ class UserResponse(BaseModel):
     email: str
     source: str | None
     plan_interest: str | None
-    status: str          # beta | converted | churned
+    status: str
     nps: int | None
     mrr: float | None
     events_count: int
