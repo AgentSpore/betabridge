@@ -36,13 +36,27 @@ def _row(r): return {k: r[k] for k in r.keys()}
 
 async def add_user(db, data: dict) -> dict:
     now = datetime.now(timezone.utc).isoformat()
-    cur = await db.execute(
+    await db.execute(
         "INSERT OR IGNORE INTO beta_users (email, source, plan_interest, created_at) VALUES (?,?,?,?)",
         (data["email"], data.get("source"), data.get("plan_interest"), now)
     )
     await db.commit()
     rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE email=?", (data["email"],))
     return _row(rows[0])
+
+async def update_user(db, user_id: int, updates: dict) -> dict | None:
+    allowed = {"source", "plan_interest"}
+    fields = {k: v for k, v in updates.items() if k in allowed}
+    if not fields:
+        return await get_user(db, user_id)
+    set_clause = ", ".join(f"{k}=?" for k in fields)
+    values = list(fields.values()) + [user_id]
+    cur = await db.execute(f"UPDATE beta_users SET {set_clause} WHERE id=?", values)
+    await db.commit()
+    if cur.rowcount == 0:
+        return None
+    rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE id=?", (user_id,))
+    return _row(rows[0]) if rows else None
 
 async def track_event(db, data: dict) -> dict:
     now = datetime.now(timezone.utc).isoformat()
@@ -97,6 +111,37 @@ async def get_funnel(db) -> dict:
         "by_status": by_status,
         "top_sources": [{"source": r["source"], "count": r["cnt"]} for r in source_rows],
     }
+
+async def get_funnel_by_source(db) -> list[dict]:
+    """Conversion rate, MRR and avg NPS broken down by signup source."""
+    rows = await db.execute_fetchall("""
+        SELECT
+            COALESCE(source, 'unknown') AS source,
+            COUNT(*) AS total,
+            SUM(CASE WHEN status='converted' THEN 1 ELSE 0 END) AS converted,
+            SUM(CASE WHEN status='churned' THEN 1 ELSE 0 END) AS churned,
+            ROUND(SUM(CASE WHEN status='converted' THEN COALESCE(mrr,0) ELSE 0 END), 2) AS mrr,
+            ROUND(AVG(nps), 1) AS avg_nps,
+            ROUND(AVG(events_count), 1) AS avg_events
+        FROM beta_users
+        GROUP BY source
+        ORDER BY converted DESC, total DESC
+    """)
+    result = []
+    for r in rows:
+        total = r["total"] or 0
+        converted = r["converted"] or 0
+        result.append({
+            "source": r["source"],
+            "total": total,
+            "converted": converted,
+            "churned": r["churned"] or 0,
+            "conversion_rate_pct": round(converted / total * 100, 1) if total else 0.0,
+            "mrr": r["mrr"] or 0.0,
+            "avg_nps": r["avg_nps"],
+            "avg_events": r["avg_events"] or 0.0,
+        })
+    return result
 
 async def get_user(db, user_id: int) -> dict | None:
     rows = await db.execute_fetchall("SELECT * FROM beta_users WHERE id=?", (user_id,))
