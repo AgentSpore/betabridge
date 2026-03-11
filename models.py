@@ -43,3 +43,35 @@ class UserResponse(BaseModel):
     events_count: int
     created_at: str
     converted_at: str | None
+
+
+class ActivationScore(BaseModel):
+    user_id: int
+    email: str
+    status: str
+    score: int
+    breakdown: dict
+    days_in_beta: int
+    recommendation: str
+
+
+class ScoredUser(BaseModel):
+    id: int
+    email: str
+    source: str | None
+    plan_interest: str | None
+    status: str
+    score: int
+    events_count: int
+    nps: int | None
+    days_in_beta: int
+
+
+class ActivationStats(BaseModel):
+    total_users: int
+    avg_score: float
+    score_distribution: dict
+    by_status: list[dict]
+    by_source: list[dict]
+    ready_count: int
+    at_risk_count: int
