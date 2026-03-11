@@ -1,5 +1,6 @@
 from __future__ import annotations
-from datetime import datetime, timezone
+from collections import defaultdict
+from datetime import datetime, timezone, date
 import aiosqlite
 
 SQL_TABLES = """
@@ -113,7 +114,6 @@ async def get_funnel(db) -> dict:
     }
 
 async def get_funnel_by_source(db) -> list[dict]:
-    """Conversion rate, MRR and avg NPS broken down by signup source."""
     rows = await db.execute_fetchall("""
         SELECT
             COALESCE(source, 'unknown') AS source,
@@ -203,3 +203,156 @@ async def export_users_csv(db, status: str | None = None) -> str:
             u["nps"], u["mrr"], u["events_count"], u["created_at"], u["converted_at"],
         ])
     return buf.getvalue()
+
+
+def _calc_score(user: dict) -> tuple[int, dict]:
+    """Calculate activation score 0-100 with breakdown."""
+    ec = user["events_count"] or 0
+    events_pts = int(min(ec / 10, 1.0) * 40)
+
+    nps = user["nps"]
+    nps_pts = int((nps / 10) * 25) if nps is not None else 0
+
+    created = user["created_at"][:10]
+    try:
+        days = (date.today() - date.fromisoformat(created)).days
+    except (ValueError, TypeError):
+        days = 0
+    days_pts = int(min(days / 30, 1.0) * 20)
+
+    plan_pts = 15 if user["plan_interest"] else 0
+
+    total = min(events_pts + nps_pts + days_pts + plan_pts, 100)
+    breakdown = {
+        "events": events_pts,
+        "nps": nps_pts,
+        "tenure": days_pts,
+        "plan_interest": plan_pts,
+    }
+    return total, breakdown, days
+
+
+def _recommendation(score: int, status: str) -> str:
+    if status == "converted":
+        return "Already converted — focus on expansion"
+    if status == "churned":
+        return "Churned — consider win-back campaign"
+    if score >= 70:
+        return "Ready to convert — reach out with pricing"
+    if score >= 40:
+        return "Engaged — nurture with feature highlights"
+    if score >= 20:
+        return "Low engagement — send activation email"
+    return "At risk — immediate outreach needed"
+
+
+async def calc_activation_score(db, user_id: int) -> dict | None:
+    user = await get_user(db, user_id)
+    if not user:
+        return None
+    score, breakdown, days = _calc_score(user)
+    return {
+        "user_id": user["id"],
+        "email": user["email"],
+        "status": user["status"],
+        "score": score,
+        "breakdown": breakdown,
+        "days_in_beta": days,
+        "recommendation": _recommendation(score, user["status"]),
+    }
+
+
+async def get_ready_users(db, threshold: int = 70) -> list[dict]:
+    rows = await db.execute_fetchall(
+        "SELECT * FROM beta_users WHERE status='beta' ORDER BY events_count DESC"
+    )
+    result = []
+    for r in rows:
+        user = _row(r)
+        score, _, days = _calc_score(user)
+        if score >= threshold:
+            result.append({
+                "id": user["id"], "email": user["email"],
+                "source": user["source"], "plan_interest": user["plan_interest"],
+                "status": user["status"], "score": score,
+                "events_count": user["events_count"],
+                "nps": user["nps"], "days_in_beta": days,
+            })
+    result.sort(key=lambda x: x["score"], reverse=True)
+    return result
+
+
+async def get_at_risk_users(db, threshold: int = 30, min_days: int = 7) -> list[dict]:
+    rows = await db.execute_fetchall(
+        "SELECT * FROM beta_users WHERE status='beta' ORDER BY events_count ASC"
+    )
+    result = []
+    for r in rows:
+        user = _row(r)
+        score, _, days = _calc_score(user)
+        if score < threshold and days >= min_days:
+            result.append({
+                "id": user["id"], "email": user["email"],
+                "source": user["source"], "plan_interest": user["plan_interest"],
+                "status": user["status"], "score": score,
+                "events_count": user["events_count"],
+                "nps": user["nps"], "days_in_beta": days,
+            })
+    result.sort(key=lambda x: x["score"])
+    return result
+
+
+async def get_activation_stats(db) -> dict:
+    rows = await db.execute_fetchall("SELECT * FROM beta_users")
+    if not rows:
+        return {
+            "total_users": 0, "avg_score": 0.0,
+            "score_distribution": {}, "by_status": [], "by_source": [],
+            "ready_count": 0, "at_risk_count": 0,
+        }
+
+    scores = []
+    by_status = defaultdict(list)
+    by_source = defaultdict(list)
+    ready = 0
+    at_risk = 0
+
+    for r in rows:
+        user = _row(r)
+        score, _, days = _calc_score(user)
+        scores.append(score)
+        by_status[user["status"]].append(score)
+        by_source[user["source"] or "unknown"].append(score)
+        if user["status"] == "beta":
+            if score >= 70:
+                ready += 1
+            elif score < 30 and days >= 7:
+                at_risk += 1
+
+    # Score distribution in buckets
+    buckets = {"0-19": 0, "20-39": 0, "40-59": 0, "60-79": 0, "80-100": 0}
+    for s in scores:
+        if s < 20: buckets["0-19"] += 1
+        elif s < 40: buckets["20-39"] += 1
+        elif s < 60: buckets["40-59"] += 1
+        elif s < 80: buckets["60-79"] += 1
+        else: buckets["80-100"] += 1
+
+    status_stats = [
+        {"status": k, "count": len(v), "avg_score": round(sum(v) / len(v), 1)}
+        for k, v in sorted(by_status.items())
+    ]
+    source_stats = [
+        {"source": k, "count": len(v), "avg_score": round(sum(v) / len(v), 1)}
+        for k, v in sorted(by_source.items(), key=lambda x: -len(x[1]))
+    ]
+
+    return {
+        "total_users": len(scores),
+        "avg_score": round(sum(scores) / len(scores), 1),
+        "score_distribution": buckets,
+        "by_status": status_stats,
+        "by_source": source_stats,
+        "ready_count": ready,
+        "at_risk_count": at_risk,
+    }
