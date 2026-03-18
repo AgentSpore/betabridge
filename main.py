@@ -1,5 +1,149 @@
-ZnJvbSBfX2Z1dHVyZV9fIGltcG9ydCBhbm5vdGF0aW9ucwpmcm9tIGNvbnRleHRsaWIgaW1wb3J0IGFzeW5jY29udGV4dG1hbmFnZXIKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmZyb20gZmFzdGFwaSBpbXBvcnQgRmFzdEFQSSwgSFRUUEV4Y2VwdGlvbiwgUXVlcnkKZnJvbSBmYXN0YXBpLnJlc3BvbnNlcyBpbXBvcnQgU3RyZWFtaW5nUmVzcG9uc2UsIEZpbGVSZXNwb25zZQpmcm9tIGZhc3RhcGkuc3RhdGljZmlsZXMgaW1wb3J0IFN0YXRpY0ZpbGVzCmZyb20gbW9kZWxzIGltcG9ydCAoCiAgICBVc2VyQ3JlYXRlLCBVc2VyVXBkYXRlLCBFdmVudENyZWF0ZSwgTnBzQ3JlYXRlLCBDb252ZXJ0Q3JlYXRlLAogICAgVXNlclJlc3BvbnNlLCBBY3RpdmF0aW9uU2NvcmUsIFNjb3JlZFVzZXIsIEFjdGl2YXRpb25TdGF0cywKKQpmcm9tIGVuZ2luZSBpbXBvcnQgKAogICAgaW5pdF9kYiwgYWRkX3VzZXIsIHVwZGF0ZV91c2VyLCB0cmFja19ldmVudCwgcmVjb3JkX25wcywgY29udmVydF91c2VyLAogICAgbGlzdF91c2VycywgZ2V0X2Z1bm5lbCwgZ2V0X2Z1bm5lbF9ieV9zb3VyY2UsIGdldF91c2VyLCBnZXRfdXNlcl9ldmVudHMsCiAgICBjaHVybl91c2VyLCBnZXRfY29ob3J0cywgZXhwb3J0X3VzZXJzX2NzdiwKICAgIGNhbGNfYWN0aXZhdGlvbl9zY29yZSwgZ2V0X3JlYWR5X3VzZXJzLCBnZXRfYXRfcmlza191c2VycywgZ2V0X2FjdGl2YXRpb25fc3RhdHMsCikKaW1wb3J0IG9zCgpEQl9QQVRIID0gb3MuZW52aXJvbi5nZXQoIkRCX1BBVEgiLCAiYmV0YWJyaWRnZS5kYiIpClNUQVRJQ19ESVIgPSBQYXRoKF9fZmlsZV9fKS5wYXJlbnQgLyAic3RhdGljIgoKQGFzeW5jY29udGV4dG1hbmFnZXIKYXN5bmMgZGVmIGxpZmVzcGFuKGFwcDogRmFzdEFQSSk6CiAgICBhcHAuc3RhdGUuZGIgPSBhd2FpdCBpbml0X2RiKERCX1BBVEgpCiAgICB5aWVsZAogICAgYXdhaXQgYXBwLnN0YXRlLmRiLmNsb3NlKCkKCmFwcCA9IEZhc3RBUEkoCiAgICB0aXRsZT0iQmV0YUJyaWRnZSIsCiAgICBkZXNjcmlwdGlvbj0iQmV0YS10by1wYWlkIGNvbnZlcnNpb24gdHJhY2tlciB3aXRoIGFjdGl2YXRpb24gc2NvcmluZy4gVHJhY2sgdXNlciBqb3VybmV5cywgc2NvcmUgcmVhZGluZXNzIHRvIGNvbnZlcnQsIGlkZW50aWZ5IGF0LXJpc2sgdXNlcnMgbmVlZGluZyBpbnRlcnZlbnRpb24uIiwKICAgIHZlcnNpb249IjAuNi4wIiwKICAgIGxpZmVzcGFuPWxpZmVzcGFuLAopCgojIE1vdW50IHN0YXRpYyBmaWxlcwpTVEFUSUNfRElSLm1rZGlyKGV4aXN0X29rPVRydWUpCmFwcC5tb3VudCgiL3N0YXRpYyIsIFN0YXRpY0ZpbGVzKGRpcmVjdG9yeT1zdHIoU1RBVElDX0RJUikpLCBuYW1lPSJzdGF0aWMiKQoKQGFwcC5nZXQoIi8iKQphc3luYyBkZWYgaW5kZXgoKToKICAgIGluZGV4X3BhdGggPSBTVEFUSUNfRElSIC8gImluZGV4Lmh0bWwiCiAgICBpZiBub3QgaW5kZXhfcGF0aC5leGlzdHMoKToKICAgICAgICByYWlzZSBIVFRQRXhjZXB0aW9uKDQwNCwgIlVJIG5vdCBmb3VuZCIpCiAgICByZXR1cm4gRmlsZVJlc3BvbnNlKHN0cihpbmRleF9wYXRoKSwgbWVkaWFfdHlwZT0idGV4dC9odG1sIikKCkBhcHAucG9zdCgiL3VzZXJzIiwgcmVzcG9uc2VfbW9kZWw9VXNlclJlc3BvbnNlLCBzdGF0dXNfY29kZT0yMDEpCmFzeW5jIGRlZiBhZGRfYmV0YV91c2VyKGJvZHk6IFVzZXJDcmVhdGUpOgogICAgcmV0dXJuIGF3YWl0IGFkZF91c2VyKGFwcC5zdGF0ZS5kYiwgYm9keS5tb2RlbF9kdW1wKCkpCgpAYXBwLmdldCgiL3VzZXJzL2V4cG9ydC9jc3YiKQphc3luYyBkZWYgZXhwb3J0X2NzdigKICAgIHN0YXR1czogc3RyIHwgTm9uZSA9IFF1ZXJ5KE5vbmUsIGRlc2NyaXB0aW9uPSJGaWx0ZXI6IGJldGEsIGNvbnZlcnRlZCwgY2h1cm5lZCIpLAopOgogICAgY3N2X2RhdGEgPSBhd2FpdCBleHBvcnRfdXNlcnNfY3N2KGFwcC5zdGF0ZS5kYiwgc3RhdHVzKQogICAgZmlsZW5hbWUgPSBmImJldGFicmlkZ2VfdXNlcnN7J18nICsgc3RhdHVzIGlmIHN0YXR1cyBlbHNlICcnfS5jc3YiCiAgICByZXR1cm4gU3RyZWFtaW5nUmVzcG9uc2UoCiAgICAgICAgaXRlcihbY3N2X2RhdGFdKSwKICAgICAgICBtZWRpYV90eXBlPSJ0ZXh0L2NzdiIsCiAgICAgICAgaGVhZGVycz17IkNvbnRlbnQtRGlzcG9zaXRpb24iOiBmImF0dGFjaG1lbnQ7IGZpbGVuYW1lPXtmaWxlbmFtZX0ifSwKICAgICkKCkBhcHAuZ2V0KCIvdXNlcnMvcmVhZHkiLCByZXNwb25zZV9tb2RlbD1saXN0W1Njb3JlZFVzZXJdKQphc3luYyBkZWYgcmVhZHlfdG9fY29udmVydCgKICAgIHRocmVzaG9sZDogaW50ID0gUXVlcnkoNzAsIGdlPTEsIGxlPTEwMCwgZGVzY3JpcHRpb249Ik1pbmltdW0gYWN0aXZhdGlvbiBzY29yZSIpLAopOgogICAgIiIiQmV0YSB1c2VycyB3aXRoIGhpZ2ggYWN0aXZhdGlvbiBzY29yZXMg4oCUIHNhbGVzLXJlYWR5IGxpc3Qgc29ydGVkIGJ5IHNjb3JlIGRlc2MuIiIiCiAgICByZXR1cm4gYXdhaXQgZ2V0X3JlYWR5X3VzZXJzKGFwcC5zdGF0ZS5kYiwgdGhyZXNob2xkKQoKQGFwcC5nZXQoIi91c2Vycy9hdC1yaXNrIiwgcmVzcG9uc2VfbW9kZWw9bGlzdFtTY29yZWRVc2VyXSkKYXN5bmMgZGVmIGF0X3Jpc2tfdXNlcnMoCiAgICB0aHJlc2hvbGQ6IGludCA9IFF1ZXJ5KDMwLCBnZT0xLCBsZT0xMDAsIGRlc2NyaXB0aW9uPSJNYXggc2NvcmUgdG8gYmUgY29uc2lkZXJlZCBhdC1yaXNrIiksCiAgICBtaW5fZGF5czogaW50ID0gUXVlcnkoNywgZ2U9MSwgZGVzY3JpcHRpb249Ik1pbiBkYXlzIGluIGJldGEgYmVmb3JlIGZsYWdnaW5nIiksCik6CiAgICAiIiJCZXRhIHVzZXJzIHdpdGggbG93IHNjb3JlcyB3aG9cJ3ZlIGJlZW4gYXJvdW5kIGxvbmcgZW5vdWdoIOKAlCBuZWVkIGludGVydmVudGlvbi4iIiIKICAgIHJldHVybiBhd2FpdCBnZXRfYXRfcmlza191c2VycyhhcHAuc3RhdGUuZGIsIHRocmVzaG9sZCwgbWluX2RheXMpCgpAYXBwLmdldCgiL3VzZXJzIiwgcmVzcG9uc2VfbW9kZWw9bGlzdFtVc2VyUmVzcG9uc2VdKQphc3luYyBkZWYgbGlzdF9iZXRhX3VzZXJzKHN0YXR1czogc3RyIHwgTm9uZSA9IFF1ZXJ5KE5vbmUsIGRlc2NyaXB0aW9uPSJiZXRhIHwgY29udmVydGVkIHwgY2h1cm5lZCIpKToKICAgIHJldHVybiBhd2FpdCBsaXN0X3VzZXJzKGFwcC5zdGF0ZS5kYiwgc3RhdHVzKQoKQGFwcC5nZXQoIi91c2Vycy97dXNlcl9pZH0iLCByZXNwb25zZV9tb2RlbD1Vc2VyUmVzcG9uc2UpCmFzeW5jIGRlZiBnZXRfdXNlcl9kZXRhaWwodXNlcl9pZDogaW50KToKICAgIHUgPSBhd2FpdCBnZXRfdXNlcihhcHAuc3RhdGUuZGIsIHVzZXJfaWQpCiAgICBpZiBub3QgdToKICAgICAgICByYWlzZSBIVFRQRXhjZXB0aW9uKDQwNCwgIlVzZXIgbm90IGZvdW5kIikKICAgIHJldHVybiB1CgpAYXBwLmdldCgiL3VzZXJzL3t1c2VyX2lkfS9zY29yZSIsIHJlc3BvbnNlX21vZGVsPUFjdGl2YXRpb25TY29yZSkKYXN5bmMgZGVmIHVzZXJfYWN0aXZhdGlvbl9zY29yZSh1c2VyX2lkOiBpbnQpOgogICAgIiIiQWN0aXZhdGlvbiBzY29yZSAwLTEwMCB3aXRoIGJyZWFrZG93biAoZXZlbnRzLCBOUFMsIHRlbnVyZSwgcGxhbl9pbnRlcmVzdCkgYW5kIHJlY29tbWVuZGF0aW9uLiIiIgogICAgcmVzdWx0ID0gYXdhaXQgY2FsY19hY3RpdmF0aW9uX3Njb3JlKGFwcC5zdGF0ZS5kYiwgdXNlcl9pZCkKICAgIGlmIG5vdCByZXN1bHQ6CiAgICAgICAgcmFpc2UgSFRUUEV4Y2VwdGlvbig0MDQsICJVc2VyIG5vdCBmb3VuZCIpCiAgICByZXR1cm4gcmVzdWx0CgpAYXBwLnBhdGNoKCIvdXNlcnMve3VzZXJfaWR9IiwgcmVzcG9uc2VfbW9kZWw9VXNlclJlc3BvbnNlKQphc3luYyBkZWYgcGF0Y2hfdXNlcih1c2VyX2lkOiBpbnQsIGJvZHk6IFVzZXJVcGRhdGUpOgogICAgcmVzdWx0ID0gYXdhaXQgdXBkYXRlX3VzZXIoYXBwLnN0YXRlLmRiLCB1c2VyX2lkLCBib2R5Lm1vZGVsX2R1bXAoZXhjbHVkZV91bnNldD1UcnVlKSkKICAgIGlmIG5vdCByZXN1bHQ6CiAgICAgICAgcmFpc2UgSFRUUEV4Y2VwdGlvbig0MDQsICJVc2VyIG5vdCBmb3VuZCIpCiAgICByZXR1cm4gcmVzdWx0CgpAYXBwLmdldCgiL3VzZXJzL3t1c2VyX2lkfS9ldmVudHMiKQphc3luYyBkZWYgdXNlcl9ldmVudHModXNlcl9pZDogaW50KToKICAgIHJldHVybiBhd2FpdCBnZXRfdXNlcl9ldmVudHMoYXBwLnN0YXRlLmRiLCB1c2VyX2lkKQoKQGFwcC5wb3N0KCIvdXNlcnMve3VzZXJfaWR9L2NodXJuIiwgcmVzcG9uc2VfbW9kZWw9VXNlclJlc3BvbnNlKQphc3luYyBkZWYgbWFya19jaHVybmVkKHVzZXJfaWQ6IGludCk6CiAgICB1ID0gYXdhaXQgY2h1cm5fdXNlcihhcHAuc3RhdGUuZGIsIHVzZXJfaWQpCiAgICBpZiBub3QgdToKICAgICAgICByYWlzZSBIVFRQRXhjZXB0aW9uKDQwNCwgIlVzZXIgbm90IGZvdW5kIikKICAgIHJldHVybiB1CgpAYXBwLnBvc3QoIi9ldmVudHMiKQphc3luYyBkZWYgcG9zdF9ldmVudChib2R5OiBFdmVudENyZWF0ZSk6CiAgICByZXR1cm4gYXdhaXQgdHJhY2tfZXZlbnQoYXBwLnN0YXRlLmRiLCBib2R5Lm1vZGVsX2R1bXAoKSkKCkBhcHAucG9zdCgiL25wcyIpCmFzeW5jIGRlZiBzdWJtaXRfbnBzKGJvZHk6IE5wc0NyZWF0ZSk6CiAgICBpZiBub3QgMCA8PSBib2R5LnNjb3JlIDw9IDEwOgogICAgICAgIHJhaXNlIEhUVFBFeGNlcHRpb24oNDIyLCAiTlBTIHNjb3JlIG11c3QgYmUgMC0xMCIpCiAgICByZXN1bHQgPSBhd2FpdCByZWNvcmRfbnBzKGFwcC5zdGF0ZS5kYiwgYm9keS5tb2RlbF9kdW1wKCkpCiAgICBpZiBub3QgcmVzdWx0OgogICAgICAgIHJhaXNlIEhUVFBFeGNlcHRpb24oNDA0LCAiVXNlciBub3QgZm91bmQiKQogICAgcmV0dXJuIHJlc3VsdAoKQGFwcC5wb3N0KCIvY29udmVydCIsIHJlc3BvbnNlX21vZGVsPVVzZXJSZXNwb25zZSkKYXN5bmMgZGVmIG1hcmtfY29udmVydGVkKGJvZHk6IENvbnZlcnRDcmVhdGUpOgogICAgcmVzdWx0ID0gYXdhaXQgY29udmVydF91c2VyKGFwcC5zdGF0ZS5kYiwgYm9keS5tb2RlbF9kdW1wKCkpCiAgICBpZiBub3QgcmVzdWx0OgogICAgICAgIHJhaXNlIEhUVFBFeGNlcHRpb24oNDA0LCAiVXNlciBub3QgZm91bmQiKQogICAgcmV0dXJuIHJlc3VsdAoKQGFwcC5nZXQoIi9hY3RpdmF0aW9uL3N0YXRzIiwgcmVzcG9uc2VfbW9kZWw9QWN0aXZhdGlvblN0YXRzKQphc3luYyBkZWYgYWN0aXZhdGlvbl9zdGF0cygpOgogICAgIiIiU2NvcmUgZGlzdHJpYnV0aW9uLCBhdmcgYnkgc3RhdHVzL3NvdXJjZSwgcmVhZHkgKyBhdC1yaXNrIGNvdW50cy4iIiIKICAgIHJldHVybiBhd2FpdCBnZXRfYWN0aXZhdGlvbl9zdGF0cyhhcHAuc3RhdGUuZGIpCgpAYXBwLmdldCgiL2Z1bm5lbC9ieS1zb3VyY2UiKQphc3luYyBkZWYgZnVubmVsX2J5X3NvdXJjZSgpOgogICAgcmV0dXJuIGF3YWl0IGdldF9mdW5uZWxfYnlfc291cmNlKGFwcC5zdGF0ZS5kYikKCkBhcHAuZ2V0KCIvZnVubmVsIikKYXN5bmMgZGVmIGNvbnZlcnNpb25fZnVubmVsKCk6CiAgICByZXR1cm4gYXdhaXQgZ2V0X2Z1bm5lbChhcHAuc3RhdGUuZGIpCgpAYXBwLmdldCgiL2NvaG9ydHMiKQphc3luYyBkZWYgY29ob3J0X2FuYWx5c2lzKCk6CiAgICByZXR1cm4gYXdhaXQgZ2V0X2NvaG9ydHMoYXBwLnN0YXRlLmRiKQo=
+from __future__ import annotations
+from contextlib import asynccontextmanager
+from pathlib import Path
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from models import (
+    UserCreate, UserUpdate, EventCreate, NpsCreate, ConvertCreate,
+    UserResponse, ActivationScore, ScoredUser, ActivationStats,
+)
+from engine import (
+    init_db, add_user, update_user, track_event, record_nps, convert_user,
+    list_users, get_funnel, get_funnel_by_source, get_user, get_user_events,
+    churn_user, get_cohorts, export_users_csv,
+    calc_activation_score, get_ready_users, get_at_risk_users, get_activation_stats,
+)
+import os
 
-@app.get("/health")
-async def health():
-    return {"status": "ok", "version": "0.6.0"}
+DB_PATH = os.environ.get("DB_PATH", "betabridge.db")
+STATIC_DIR = Path(__file__).parent / "static"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.db = await init_db(DB_PATH)
+    yield
+    await app.state.db.close()
+
+app = FastAPI(
+    title="BetaBridge",
+    description="Beta-to-paid conversion tracker with activation scoring. Track user journeys, score readiness to convert, identify at-risk users needing intervention.",
+    version="0.6.0",
+    lifespan=lifespan,
+)
+
+# Mount static files
+STATIC_DIR.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+@app.get("/")
+async def index():
+    index_path = STATIC_DIR / "index.html"
+    if not index_path.exists():
+        raise HTTPException(404, "UI not found")
+    return FileResponse(str(index_path), media_type="text/html")
+
+@app.post("/users", response_model=UserResponse, status_code=201)
+async def add_beta_user(body: UserCreate):
+    return await add_user(app.state.db, body.model_dump())
+
+@app.get("/users/export/csv")
+async def export_csv(
+    status: str | None = Query(None, description="Filter: beta, converted, churned"),
+):
+    csv_data = await export_users_csv(app.state.db, status)
+    filename = f"betabridge_users{'_' + status if status else ''}.csv"
+    return StreamingResponse(
+        iter([csv_data]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
+    )
+
+@app.get("/users/ready", response_model=list[ScoredUser])
+async def ready_to_convert(
+    threshold: int = Query(70, ge=1, le=100, description="Minimum activation score"),
+):
+    """Beta users with high activation scores — sales-ready list sorted by score desc."""
+    return await get_ready_users(app.state.db, threshold)
+
+@app.get("/users/at-risk", response_model=list[ScoredUser])
+async def at_risk_users(
+    threshold: int = Query(30, ge=1, le=100, description="Max score to be considered at-risk"),
+    min_days: int = Query(7, ge=1, description="Min days in beta before flagging"),
+):
+    """Beta users with low scores who\'ve been around long enough — need intervention."""
+    return await get_at_risk_users(app.state.db, threshold, min_days)
+
+@app.get("/users", response_model=list[UserResponse])
+async def list_beta_users(status: str | None = Query(None, description="beta | converted | churned")):
+    return await list_users(app.state.db, status)
+
+@app.get("/users/{user_id}", response_model=UserResponse)
+async def get_user_detail(user_id: int):
+    u = await get_user(app.state.db, user_id)
+    if not u:
+        raise HTTPException(404, "User not found")
+    return u
+
+@app.get("/users/{user_id}/score", response_model=ActivationScore)
+async def user_activation_score(user_id: int):
+    """Activation score 0-100 with breakdown (events, NPS, tenure, plan_interest) and recommendation."""
+    result = await calc_activation_score(app.state.db, user_id)
+    if not result:
+        raise HTTPException(404, "User not found")
+    return result
+
+@app.patch("/users/{user_id}", response_model=UserResponse)
+async def patch_user(user_id: int, body: UserUpdate):
+    result = await update_user(app.state.db, user_id, body.model_dump(exclude_unset=True))
+    if not result:
+        raise HTTPException(404, "User not found")
+    return result
+
+@app.get("/users/{user_id}/events")
+async def user_events(user_id: int):
+    return await get_user_events(app.state.db, user_id)
+
+@app.post("/users/{user_id}/churn", response_model=UserResponse)
+async def mark_churned(user_id: int):
+    u = await churn_user(app.state.db, user_id)
+    if not u:
+        raise HTTPException(404, "User not found")
+    return u
+
+@app.post("/events")
+async def post_event(body: EventCreate):
+    return await track_event(app.state.db, body.model_dump())
+
+@app.post("/nps")
+async def submit_nps(body: NpsCreate):
+    if not 0 <= body.score <= 10:
+        raise HTTPException(422, "NPS score must be 0-10")
+    result = await record_nps(app.state.db, body.model_dump())
+    if not result:
+        raise HTTPException(404, "User not found")
+    return result
+
+@app.post("/convert", response_model=UserResponse)
+async def mark_converted(body: ConvertCreate):
+    result = await convert_user(app.state.db, body.model_dump())
+    if not result:
+        raise HTTPException(404, "User not found")
+    return result
+
+@app.get("/activation/stats", response_model=ActivationStats)
+async def activation_stats():
+    """Score distribution, avg by status/source, ready + at-risk counts."""
+    return await get_activation_stats(app.state.db)
+
+@app.get("/funnel/by-source")
+async def funnel_by_source():
+    return await get_funnel_by_source(app.state.db)
+
+@app.get("/funnel")
+async def conversion_funnel():
+    return await get_funnel(app.state.db)
+
+@app.get("/cohorts")
+async def cohort_analysis():
+    return await get_cohorts(app.state.db)
