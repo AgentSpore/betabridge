@@ -147,3 +147,8 @@ async def conversion_funnel():
 @app.get("/cohorts")
 async def cohort_analysis():
     return await get_cohorts(app.state.db)
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "version": "0.6.0"}
