@@ -1,1 +1,10 @@
-RlJPTSBweXRob246My4xMS1zbGltCgpXT1JLRElSIC9hcHAKCkNPUFkgcmVxdWlyZW1lbnRzLnR4dCAuClJVTiBwaXAgaW5zdGFsbCAtLW5vLWNhY2hlLWRpciAtciByZXF1aXJlbWVudHMudHh0CgpDT1BZIC4gLgoKUlVOIG1rZGlyIC1wIC9hcHAvc3RhdGljCgpFWFBPU0UgODAwMAoKSEVBTFRIQ0hFQ0sgLS1pbnRlcnZhbD0zMHMgLS10aW1lb3V0PTVzIC0tcmV0cmllcz0zIFwKICBDTUQgcHl0aG9uIC1jICJpbXBvcnQgdXJsbGliLnJlcXVlc3Q7IHVybGxpYi5yZXF1ZXN0LnVybG9wZW4oJ2h0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9mdW5uZWwnKSIgfHwgZXhpdCAxCgpDTUQgWyJ1dmljb3JuIiwgIm1haW46YXBwIiwgIi0taG9zdCIsICIwLjAuMC4wIiwgIi0tcG9ydCIsICI4MDAwIl0K
+FROM python:3.11-slim
+WORKDIR /app
+RUN pip install uv
+COPY pyproject.toml .python-version* ./
+RUN uv sync --no-dev
+COPY . .
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

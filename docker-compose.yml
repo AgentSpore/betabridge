@@ -1,1 +1,15 @@
-dmVyc2lvbjogIjMuOSIKCnNlcnZpY2VzOgogIGJldGFicmlkZ2U6CiAgICBidWlsZDogLgogICAgcG9ydHM6CiAgICAgIC0gIjgwMDA6ODAwMCIKICAgIHZvbHVtZXM6CiAgICAgIC0gZGItZGF0YTovYXBwL2RhdGEKICAgIGVudmlyb25tZW50OgogICAgICAtIERCX1BBVEg9L2FwcC9kYXRhL2JldGFicmlkZ2UuZGIKICAgIHJlc3RhcnQ6IHVubGVzcy1zdG9wcGVkCiAgICBoZWFsdGhjaGVjazoKICAgICAgdGVzdDogWyJDTUQiLCAicHl0aG9uIiwgIi1jIiwgImltcG9ydCB1cmxsaWIucmVxdWVzdDsgdXJsbGliLnJlcXVlc3QudXJsb3BlbignaHR0cDovL2xvY2FsaG9zdDo4MDAwL2Z1bm5lbCcpIl0KICAgICAgaW50ZXJ2YWw6IDMwcwogICAgICB0aW1lb3V0OiA1cwogICAgICByZXRyaWVzOiAzCgp2b2x1bWVzOgogIGRiLWRhdGE6Cg==
+services:
+  betabridge:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  data:
